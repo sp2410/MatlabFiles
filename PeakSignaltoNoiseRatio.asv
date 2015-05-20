@@ -1,0 +1,19 @@
+function [PSNR MSE er] = PeakSignaltoNoiseRatio(origImg, distImg)
+
+origImg = double(origImg);
+distImg = double(distImg);
+[M N] = size(origImg);
+error = origImg - distImg;
+MSE = sum(sum(error .* error)) / (M * N);
+
+if(MSE > 0)
+    PSNR = 10*log(255*255/MSE) / log(10);
+else
+    PSNR = 99;
+    
+    %mse 
+    %y=mean(mean((double( distImg) - double(origImg)).^2,2),1);
+    
+er=rms_error(origImg, distImg);
+
+end 

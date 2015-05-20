@@ -1,0 +1,34 @@
+function[mask,bwfim,bw] = foo1(i,m,k)
+%i-i is the image given  for the procedure
+
+
+%output:  %mask:k means segmented image
+          %bwfim: output from otsu method
+          %bw: output from fcm thresh
+%m-can be either 0 or 1 for otsu.
+%sw is 0 or 1, a switch of cut-off position.
+%  sw=0, cut between the small and middle class
+%  sw=1, cut between the middle and large class
+%k-class for k means clustering.
+
+%kmeans
+l=adapthisteq(i);
+[mu,mask]=kmeans1(l,k);
+figure(1),imshow(mat2gray(mask));
+title('k means');
+
+
+%otsu
+fim=mat2gray(l);
+level=graythresh(fim);
+bwfim=im2bw(fim,level);
+figure(2),imshow(bwfim);
+title('otsu');
+
+
+%fcm thresh
+[bw,level]=fcmthresh(mat2gray(l),m);
+figure(3),imshow(bw);
+title('fcm thresh.');
+
+end

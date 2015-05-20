@@ -1,0 +1,19 @@
+filter-i2
+i2t-noise
+
+
+funcion names-
+try2,
+plotting,
+filters,
+stats,
+noiseaddtn
+
+
+
+function (return)= name(output)
+
+filter2
+ordfilt2
+wiener2
+1,3,4, last2  legend

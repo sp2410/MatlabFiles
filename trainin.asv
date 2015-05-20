@@ -1,0 +1,16 @@
+function training = trainin(x,y,k)
+%k is a string for directory
+dir=k;
+training=zeros(x,y);
+imagefiles = dir('*.pgm');
+nfiles = length(imagefiles);    
+for ii=1:nfiles
+    currentfilename = imagefiles(ii).name;
+    I = imread(currentfilename);
+    temp = reshape(I,1,y);
+    training(ii,:)=temp;
+end
+
+
+
+end

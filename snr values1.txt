@@ -1,0 +1,2 @@
+snr values using log method 
+  24.50648216  25.05812237  25.08099969

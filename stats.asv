@@ -1,0 +1,8 @@
+function [snr snr2 mssim issim] = stats(s_i1,g,n)
+ima = max(max(s_i1));
+imi= min(min(s_i1));
+ims = std(std(g));
+snr=20*log10((ima-imi)./ims);
+snr2 = mean(s_i1(:))/std(n);
+[ssim ssim_index] = ssimindex(g,s_i1);
+end

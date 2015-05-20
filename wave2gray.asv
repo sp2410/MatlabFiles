@@ -1,0 +1,64 @@
+function w = wave2gray(c,scale,border)
+error(nargchk(2,4,nargin));
+if(ndims(c)~=2)||(size(c,1)~=1)
+    error('c must be a row vector');end
+if(ndims(s) ~=2)||~isreal(s)||~isnumeric(s)||(size(s,2)~=2)
+    error('s must  be a real,numeric,two column array');end
+elements = prod(s,2);
+if(length(c)<elements(end))||~(elements(1)+3*sum(elements(2:end-1))>=elements(end))
+    error('[c,s] must be a standard wavelet decomposition structure');
+end
+if(nargin>2)&&(~isreal(scale)||~isnumeric(scale))
+    error('scale must be a real,numeric scalar');
+end
+if(nargin>3)&&(~ischar(border))
+    error('border must be a character string');
+end
+if(nargin==2)
+    scale =1;
+end
+if nargin<4
+    border = 'absorb';
+end
+absflag = scale<0;
+scale = abs(scale);
+if scale ==0
+    scale = 1;
+end
+[cd,w]=wavecut('a',c,s);
+cdx = max(abs(cs(:)))
+if absflag
+    cd = mat2gray(abs(cd),[0, cdx]); fill=0;
+else
+    cd = mat2gray(cd,[-cdx, cdx]);
+end
+for i = size(s,1)-2:-1:1
+    ws = size(w);
+    h=wavecopy('h',cd,s,i);
+    pad=ws-size(h);
+    h=padarray(h,frontporch,fill,'pre');
+    h=padarray(h,pad-frontporch,fill,'pre');
+    v=wavecopy('v',cd,s,i);
+    pad=ws-size(v);   frontporch = round(pad/2);
+    v=padarray(v,frontporch,fill,'pre');
+    v=padarray(v,pad-ffrontporch,fill,'post');
+    d=wavecopy('d',cd,s,i);
+    pad=ws-size(d);
+    d=padarray(d,-frontporch,fill,'pre');
+    d=padarray(d,pad-frontporch,fill,'post');
+    switch lower(border)
+        case 'append'
+            w=padarray(w,[1 1],1,'post');
+            h=padarray(h,[1,0],1,'post');
+            v=padarray(v,[0 1],1,'post');
+        case 'absorb'
+            w(:,end) = 1;  w(end,:) = 1;
+            h(end,:) = 1; v(:, end)= 1;
+        otherwise
+            error('unrecognized border parameter.');
+    end
+    w=[w h; v d];
+end
+if nargout == 0
+    imshow(w);
+end

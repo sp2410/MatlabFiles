@@ -1,0 +1,75 @@
+ima=max(I2(:));
+    imi=min(I2(:));
+    %n = abs(Iorg(:)-I2(:));
+    ims = std(I2T(:));
+    n = I2T(:);
+    snr_I2(m)=20*log10((ima-imi)./ims);
+    snr_I22(m)=mean(I2(:))/std(n);
+    mean_I2(m) = mean(I2(:));
+    stdn_I2(m) = std(n);
+    
+    ima=max(IY(:));
+    imi=min(IY(:));
+    %n = abs(Iorg(:)-IY(:));
+    ims = std(I2T(:));
+    n = I2T(:);
+    snr_IY(m)=20*log10((ima-imi)./ims);
+    snr_IY2(m)=mean(IY(:))/std(n);
+    mean_IY(m) = mean(IY(:));
+    stdn_IY(m) = std(n);
+    
+    ima=max(IW(:));
+    imi=min(IW(:));
+     n = std(I2T(:));
+    ims=n;
+    %n = abs(Iorg(:)-IW(:));
+    n = I2T(:);
+    ims = std(I2T(:));
+    snr_IW(m)=20*log10((ima-imi)./ims);
+    snr_IW2(m)=mean(IW(:))/std(n);
+    mean_IW(m) = mean(IW(:));
+    stdn_IW(m) = std(n);
+    
+    ima=max(xd(:));
+    imi=min(xd(:));
+    n = std(I2T(:));
+    
+    %n = abs(Iorg(:)-xd(:));
+    %ims=std(n);
+    ims = std(I2T(:));
+    n = I2T(:);
+    snr_xd(m)=20*log10((ima-imi)./ims);
+    snr_xd2(m)=mean(xd(:))/std(n);
+    mean_xd(m) = mean(xd(:));
+    stdn_xd(m) = std(n);
+
+
+    I2 = ricernd(double(Iorg), s); % s = 5
+
+
+    IDAU=denoiseBayes2D(single(I2T),'Daubechies',4,5);
+
+
+   format short
+   fid=fopen('d:\kt','W');
+    fid1=fopen('d:\kt_result','W');
+   fid2=fopen('d:\kt_result_adaptive_k','W');
+fprintf(fid1,' %6d) %4d %4d %6.2f %8.5f %8.5f %8.5f (%4d\n',kt,wr,wc,rd,ent1,ent2,abs(ent2-ent1),icount);
+
+
+[IW noise]= wiener2(I2T,[wr wc]);
+    x(1,m)=std(std(double(IX)));
+    x(2,m)=std(std(IY));
+    x(3,m)=std(std(I2));
+    x(4,m)=std(std(I3));
+
+    y(1,m)=std(std(double(IX)));
+    y(2,m)=std(std(IY));
+    y(3,m)=std(std(double(IW)));pw(1,m)=y(3,m);
+    y(4,m)=std(std(double(IX)-double(IW)));
+    x
+    y
+    imageWR(:,:,m)=IW;
+      [thr,sorh,keepapp,crit] = ddencmp('den','wp',I2T)  
+      xd = wdencmp('gbl',I2T,'sym4',2,thr,sorh,keepapp); 
+    imageWT(:,:,m)=xd; 

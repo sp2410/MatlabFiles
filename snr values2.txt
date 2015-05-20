@@ -1,0 +1,2 @@
+snr values using mean/std method 
+  24.51036738  24.53031058  24.48337061

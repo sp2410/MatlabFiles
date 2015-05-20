@@ -1,0 +1,494 @@
+function varargout = feature_ext_gui(varargin)
+% FEATURE_EXT_GUI M-file for feature_ext_gui.fig
+%      FEATURE_EXT_GUI, by itself, creates a new FEATURE_EXT_GUI or raises the existing
+%      singleton*.
+%
+%      H = FEATURE_EXT_GUI returns the handle to a new FEATURE_EXT_GUI or the handle to
+%      the existing singleton*.
+%
+%      FEATURE_EXT_GUI('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in FEATURE_EXT_GUI.M with the given input arguments.
+%
+%      FEATURE_EXT_GUI('Property','Value',...) creates a new FEATURE_EXT_GUI or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before feature_ext_gui_OpeningFcn gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to feature_ext_gui_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help feature_ext_gui
+
+% Last Modified by GUIDE v2.5 15-Jun-2012 13:06:43
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @feature_ext_gui_OpeningFcn, ...
+                   'gui_OutputFcn',  @feature_ext_gui_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before feature_ext_gui is made visible.
+function feature_ext_gui_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to feature_ext_gui (see VARARGIN)
+
+% Choose default command line output for feature_ext_gui
+handles.output = hObject;
+
+% Update handles structure
+guidata(hObject, handles);
+
+% UIWAIT makes feature_ext_gui wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+% --- Outputs from this function are returned to the command line.
+function varargout = feature_ext_gui_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+% --- Executes on button press in pushbutton15.
+function pushbutton15_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton15 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+k1= imread(uigetfile('*.tif'));
+k2=rgb2gray(k1);
+t1=im2bw(k1);
+uisave({'k2','k1','t1'},'k');
+axes(handles.axes1); 
+imshow(k1);
+title('Original image');
+
+
+% --- Executes on button press in pushbutton16.
+function pushbutton16_Callback(hObject, eventdata, handles)
+load('k.mat');
+axes(handles.axes1); 
+imshow(t1);
+title('black & white image');
+
+
+% --- Executes on button press in pushbutton17.
+function pushbutton17_Callback(hObject, eventdata, handles)
+load('k.mat');
+axes(handles.axes1);
+imshow(k2);
+title('original image');
+
+
+% --- Executes on button press in pushbutton18.
+function pushbutton18_Callback(hObject, eventdata, handles)
+load('k.mat');
+s1=imadjust(k1,[0 1],[1 0],1);
+axes(handles.axes1);
+imshow(s1);
+title('negetive of original(rgb) image');
+
+% --- Executes on button press in pushbutton19.
+function pushbutton19_Callback(hObject, eventdata, handles)
+load('k.mat');
+s2=imadjust(k2,[0 1],[1 0],1);
+axes(handles.axes1);
+imshow(s2);
+title('negetive of gray image');
+
+
+% --- Executes on button press in pushbutton12.
+function pushbutton12_Callback(hObject, eventdata, handles)
+load('k.mat');
+x=imhist(k2);
+x1=x(1:10:256);
+b=1:10:256;
+axes(handles.axes1);
+plot(b,x1);
+title('plot graph of gray image');
+
+% --- Executes on button press in pushbutton11.
+function pushbutton11_Callback(hObject, eventdata, handles)
+load('k.mat');
+x=imhist(k2);
+x1=x(1:10:256);
+b=1:10:256;
+axes(handles.axes1);
+stem(b,x1);
+title('stem graph of gray image');
+
+
+% --- Executes on button press in pushbutton10.
+function pushbutton10_Callback(hObject, eventdata, handles)
+load('k.mat');
+x=imhist(k2);
+x1=x(1:10:256);
+b=1:10:256;
+axes(handles.axes1);
+bar(b,x1);
+title('bar graph of gray image');
+
+
+% --- Executes on button press in pushbutton9.
+function pushbutton9_Callback(hObject, eventdata, handles)
+load('k.mat');
+y=histeq(k2);
+axes(handles.axes1);
+imhist(y);
+title('histogram_equilize RGB2GRAY image');
+
+
+% --- Executes on button press in pushbutton8.
+function pushbutton8_Callback(hObject, eventdata, handles)
+load('k.mat');
+axes(handles.axes1);
+imhist(k2);
+title('histogram image');
+
+
+% --- Executes on button press in pushbutton1.
+function pushbutton1_Callback(hObject, eventdata, handles)
+load('k.mat');
+e3 = edge(k2,'robert');
+axes(handles.axes1);
+imshow(e3),
+title('robert opertaor applied');
+
+
+
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+load('k.mat');
+e1 = edge(k2,'sobel');
+axes(handles.axes1);
+imshow(e1);
+title('sobel operator applied');
+
+
+% --- Executes on button press in pushbutton3.
+function pushbutton3_Callback(hObject, eventdata, handles)
+load('k.mat');
+e2 = edge(k2,'prewitt');
+axes(handles.axes1);
+imshow(e2),
+title('prewitt opertaor applied');
+
+
+% --- Executes on button press in pushbutton4.
+function pushbutton4_Callback(hObject, eventdata, handles)
+load('k.mat');
+e4 = edge(k2,'log');
+axes(handles.axes1);
+imshow(e4),
+title('log opertaor applied');
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+load('k.mat');
+e5 = edge(k2,'canny');
+axes(handles.axes1);
+imshow(e5),
+title('canny opertaor applied');
+
+
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+load('k.mat');
+e6 = edge(k2,'zerocross');
+axes(handles.axes1);
+imshow(e6),
+title('zerocross opertaor applied');
+
+
+% --- Executes on button press in pushbutton20.
+function pushbutton20_Callback(hObject, eventdata, handles)
+load('k.mat');
+a=mean2(k1);
+fid =fopen('spatial mean.txt','W');
+fprintf(fid,'\t %12.8f \n',a);
+fclose(fid);
+set(handles.edit5,'String',a);
+
+
+
+% --- Executes on button press in pushbutton21.
+function pushbutton21_Callback(hObject, eventdata, handles)
+load('k.mat');
+std=std2(k1);
+fid1 =fopen('spatial standard deviation.txt','W');
+fprintf(fid1,'\t %12.8f \n',std);
+fclose(fid1);
+set(handles.edit5,'String',std);
+
+
+% --- Executes on button press in pushbutton22.
+function pushbutton22_Callback(hObject, eventdata, handles)
+load('k.mat');
+ske1=skewness(im2double(k1))*255;
+ske2=skewness(im2double(ske1))*255;
+ske=skewness(im2double(ske2))*255;
+fid2 =fopen('spatial skewness.txt','W');
+fprintf(fid2,'\t %12.8f \n',ske);
+fclose(fid2);
+set(handles.edit5,'String',ske);
+
+
+% --- Executes on button press in pushbutton23.
+function pushbutton23_Callback(hObject, eventdata, handles)
+load('k.mat');
+kur1=kurtosis(im2double(k1))*255;
+kur2=kurtosis(im2double(kur1))*255;
+kur=kurtosis(im2double(kur2))*255;
+fid3 =fopen('spatial kurtosis.txt','W');
+fprintf(fid3,'\t %12.8f \n',kur);
+fclose(fid3);
+set(handles.edit5,'String',kur);
+
+
+
+% --- Executes on button press in pushbutton24.
+function pushbutton24_Callback(hObject, eventdata, handles)
+load('k.mat');
+d6=entropyfilt(k1);
+fid9 =fopen('entropy_filter.txt','W');
+fprintf(fid9,'\t %12.8f \n',d6);
+fclose(fid9);
+axes(handles.axes1);
+imshow(mat2gray(d6));
+title('entropy filter of image');
+
+
+
+
+% --- Executes on button press in pushbutton26.
+function pushbutton26_Callback(hObject, eventdata, handles)
+load('k.mat');
+d2=rangefilt(k1);
+fid11 =fopen('range filter.txt','W');
+fprintf(fid11,'\t %12.8f \n',d2);
+fclose(fid11);
+axes(handles.axes1);
+imshow(d2);
+title('local range of image');
+
+
+% --- Executes on button press in pushbutton27.
+function pushbutton27_Callback(hObject, eventdata, handles)
+load('k.mat');
+d3=entropy(k1);
+fid12 =fopen('entropy.txt','W');
+fprintf(fid12,'\t %12.8f \n',d3);
+fclose(fid12);
+set(handles.edit5,'String',d3);
+
+
+
+% --- Executes on button press in pushbutton28.
+function pushbutton28_Callback(hObject, eventdata, handles)
+load('k.mat');
+me=mean(k1);
+fid13 =fopen('texture mean.txt','W');
+fprintf(fid13,'\t %12.8f \n',me);
+fclose(fid13);
+set(handles.edit5,'String',me);
+
+
+% --- Executes on button press in pushbutton29.
+function pushbutton29_Callback(hObject, eventdata, handles)
+load('k.mat');
+d7 = graycomatrix(k2);
+fid4 =fopen('GLCM.txt','W');
+fprintf(fid4,'\t %12.8f \n',d7);
+fclose(fid4);
+uisave('d7','glcm');
+
+% --- Executes on button press in pushbutton30.
+function pushbutton30_Callback(hObject, eventdata, handles)
+load('glcm.mat');
+d11= graycoprops(d7,'energy');
+c = struct2cell(d11);
+set(handles.edit5,'String',c);
+
+
+
+
+% --- Executes on button press in pushbutton31.
+function pushbutton31_Callback(hObject, eventdata, handles)
+load('glcm.mat');
+d12=graycoprops(d7,'contrast');
+c = struct2cell(d12);
+set(handles.edit5,'String',c);
+
+
+% --- Executes on button press in pushbutton32.
+function pushbutton32_Callback(hObject, eventdata, handles)
+load('glcm.mat');
+d13 = graycoprops(d7,'correlation');
+c = struct2cell(d13);
+set(handles.edit5,'String',c);
+
+% --- Executes on button press in pushbutton33.
+function pushbutton33_Callback(hObject, eventdata, handles)
+load('glcm.mat');
+d14=graycoprops(d7,'homogeneity');
+c = struct2cell(d14);
+set(handles.edit5,'String',c);
+
+
+% --- Executes on button press in pushbutton34.
+function pushbutton34_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'Area');
+m1=m.Area;
+set(handles.edit5,'String',m1);
+
+
+
+% --- Executes on button press in pushbutton35.
+function pushbutton35_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'Centroid');
+m2=m.Centroid;
+
+
+
+
+% --- Executes on button press in pushbutton36.
+function pushbutton36_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'BoundingBox');
+m3=m.BoundingBox;
+
+
+% --- Executes on button press in pushbutton37.
+function pushbutton37_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'MajorAxisLength');
+m5=m.MajorAxisLength;
+set(handles.edit5,'String',m5);
+
+
+
+% --- Executes on button press in pushbutton38.
+function pushbutton38_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'MinorAxisLength');
+m6=m.MinorAxisLength;
+set(handles.edit5,'String',m6);
+
+
+% --- Executes on button press in pushbutton39.
+function pushbutton39_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'Eccentricity');
+m7=m.Eccentricity;
+set(handles.edit5,'String',m7);
+
+
+% --- Executes on button press in pushbutton40.
+function pushbutton40_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'Orientation');
+m8=m.Orientation;
+set(handles.edit5,'String',m8);
+
+
+
+% --- Executes on button press in pushbutton41.
+function pushbutton41_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'EulerNumber');
+m15=m.EulerNumber;
+set(handles.edit5,'String',m15);
+
+
+% --- Executes on button press in pushbutton42.
+function pushbutton42_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'Solidity');
+m18=m.Solidity;
+set(handles.edit5,'String',m18);
+
+
+% --- Executes on button press in pushbutton43.
+function pushbutton43_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'Perimeter');
+m22=m.Perimeter;
+set(handles.edit5,'String',m22);
+
+% --- Executes on button press in pushbutton44.
+function pushbutton44_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'PixelList');
+m21=m.PixelList;
+set(handles.edit5,'String','saved in a file');
+
+
+% --- Executes on button press in pushbutton45.
+function pushbutton45_Callback(hObject, eventdata, handles)
+load('k.mat');
+m=regionprops(t1,'Extrema');
+m16=m.Extrema;
+set(handles.edit5,'String',m16);
+
+
+% --- Executes on button press in pushbutton46.
+function pushbutton46_Callback(hObject, eventdata, handles)
+load('k.mat');
+l=length(t1);
+a1 = bwarea(t1);
+compact=(l^2)/a1;
+set(handles.edit5,'String',compact);
+
+
+% --- Executes on button press in pushbutton47.
+function pushbutton47_Callback(hObject, eventdata, handles)
+set(handles.edit5,'String',0);
+
+
+
+function edit5_Callback(hObject, eventdata, handles)
+% hObject    handle to edit5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit5 as text
+%        str2double(get(hObject,'String')) returns contents of edit5 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit5_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end

@@ -1,0 +1,10 @@
+function [s_i1 q_i1 en d o] = filters(g,type,no,level)
+w=fspecial('average');
+s_i1=imfilter(g,w,'replicate');
+%w1 = fspecial('gaussian');
+%s_i2 = imfilter(g,w1,'replicate');
+[q_i1 en] =wiener2(g,[2 2]);
+ d  = medfilt2(g);
+ o = mat2gray(denoiseBayes2D(single(g),type,no,level));
+ 
+end
